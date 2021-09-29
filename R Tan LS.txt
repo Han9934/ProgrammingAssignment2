@@ -1,0 +1,29 @@
+##This program solves for the inverse of a matrix through caching 
+##Instead of computing the matrix repeatedly, caching is utilized to solve it quickly 
+##This involves two functions such as make cache matrix and cache solve
+
+makeCacheMatrix <-function(t = matrix()) {
+	inpirs <- NULL
+	get <- function() t
+	set <- function(c) {
+	  t <<- c
+	  inpirs <<- NULL 
+	} 
+	getinpirs <- function() inpirs
+	setinpirs <- function(inverse) inpirs <<- inverse
+	list(get=get, set=set, getinpirs=getinpirs, setinpirs=setinpirs)
+	} 
+
+##This is the second function which utilizes cache solve
+	
+cacheSolve <- function(t, ...) { 
+	inpirs <- t$getinpirs()
+	if (!is.null(inpirs)) {
+		message("inverse is cached")
+		return(inpirs)
+	} 
+m <- t$get()
+inpirs <- solve(m, ...)
+t$setinpirs(inpirs)
+return(inpirs)
+}
